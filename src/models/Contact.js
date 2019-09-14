@@ -7,11 +7,11 @@ const ContactSchema = new Schema({
     required: true,
   },
 
-  numberPhone: {
+  phoneNumber: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
+
 }, {
   timestamps: true,
 });

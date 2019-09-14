@@ -2,48 +2,95 @@ const Contact = require('../models/Contact');
 
 module.exports = {
 
-  async add(request, response) {
+  async addContact(request, response) {
 
-    const { name, numberPhone } = request.body;
+    const { name, phoneNumber } = request.body;
 
-    const resultContact = await Contact.findOne({ numberPhone: numberPhone }, (error) => {
+    const resultContact = await Contact.findOne({ phoneNumber: phoneNumber }, (error) => {
       if (error) {
-        return response.json(error)
+        return response.json(error);
       }
     });
 
     if (resultContact) {
-      return response.json({ menssage: 'O numero do contato informado já esta sendo utilizado.' });
+      return response.json({ message: 'O numero do contato informado já esta sendo utilizado.' });
     } else {
       await Contact.create({
         name,
-        numberPhone
+        phoneNumber
       }, (error, result) => {
         if (error) {
-          return response.json(error)
+          return response.json(error);
         }
-        return response.json(result)
+        return response.json(result);
       });
     }
   },
 
-  async findAll(request, response) {
+  async updateContact(request, response) {
+    const { id, name, phoneNumber } = request.body;
+
+    let updateContact = await Contact.findById(id, (error) => {
+      if (error) {
+        return response.json(error);
+      }
+    });
+
+    updateContact.name = name;
+    updateContact.phoneNumber = phoneNumber;
+
+    console.log(updateContact)
+
+    await updateContact.save((error) => {
+      if (error) {
+        return response.json(error);
+      }
+    });
+
+    return response.json(updateContact);
+  },
+
+  async findContactAll(request, response) {
     await Contact.find((error, result) => {
       if (error) {
-        return response.json(error)
+        return response.json(error);
       }
-      return response.json(result)
+      return response.json(result);
     });
   },
 
-  async findByContactNumberPhone(request, response) {
-    const { numberPhone } = request.headers;
+  async findByContactPhoneNumber(request, response) {
+    const { phoneNumber } = request.query.phoneNumber;
 
-    await Contact.findOne({ numberPhone: numberPhone }, (error, result) => {
+    await Contact.findOne({ phoneNumber: phoneNumber }, (error, result) => {
       if (error) {
-        return response.json(error)
+        return response.json(error);
       }
-      return response.json(result)
+      return response.json(result);
     });
-  }
+  },
+
+  async findContactByListPhoneNumber(request, response) {
+
+    let paramsPhoneNumber = [];
+
+    let queryParams = request.query.phoneNumber.split(',');
+
+    if (request.query.phoneNumber) {
+      if (request.query.phoneNumber.toString().includes(',')) {
+        for (let phoneNumber in queryParams) {
+          paramsPhoneNumber.push(queryParams[phoneNumber]);
+        }
+      } else {
+        paramsPhoneNumber.push(request.query.phoneNumber);
+      }
+    }
+
+    Contact.find({ phoneNumber: { $in: paramsPhoneNumber } }, (error, grupo) => {
+      if (error) {
+        return response.send(error);
+      }
+      return response.json(grupo);
+    });
+  },
 };

@@ -16,9 +16,11 @@ groupRoutes
   .delete('/group/:id', GroupController.deleteGroupById)
 
 contactRoutes
-  .post('/contact', ContactController.add)
-  .get('/contact', ContactController.findAll)
-  .get('/contact/number', ContactController.findByContactNumberPhone)
+  .post('/contact', ContactController.addContact)
+  .put('/contact', ContactController.updateContact)
+  .get('/contact', ContactController.findContactAll)
+  .get('/contact/number', ContactController.findByContactPhoneNumber)
+  .get('/contact/numbers', ContactController.findContactByListPhoneNumber)
 
 contactGroupsRoutes
   .get('/contact/:id/group', ContactGroupController.findContactGroups)
