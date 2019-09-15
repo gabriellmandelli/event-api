@@ -13,7 +13,7 @@ const ProductSchema = new Schema({
   },
 
   date: {
-    type: String,
+    type: Date,
     required: true,
   },
 
@@ -23,10 +23,9 @@ const ProductSchema = new Schema({
   },
 
   contacts: [{
-    _id: {
+    contactId: {
       type: Schema.Types.ObjectId,
       ref: 'Contact',
-      alias: 'id'
     },
 
     participate: {
