@@ -23,10 +23,9 @@ const ProductSchema = new Schema({
   },
 
   contacts: [{
-    _id: {
+    contact: {
       type: Schema.Types.ObjectId,
-      ref: 'Contact',
-      alias: 'id'
+      ref: 'Contact'
     },
 
     participate: {

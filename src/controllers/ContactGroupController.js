@@ -7,8 +7,8 @@ module.exports = {
 
     const idContact = request.params.id;
 
-    await Group.find({ "contacts.contactId": idContact })
-      .populate('contacts.contactId')
+    await Group.find({ "contacts.contact": idContact })
+      .populate('contacts.contact')
       .exec((error, result) => {
         if (error) {
           return response.json(error)
@@ -20,7 +20,7 @@ module.exports = {
 
   async addContactToGroup(request, response) {
 
-    const { contactId, participate, permission } = request.body;
+    const { contact, participate, permission } = request.body;
 
     const groupToAdd = await Group.findById(request.params.id, (error) => {
       if (error) {
@@ -28,14 +28,14 @@ module.exports = {
       }
     });
 
-    const validContact = await Contact.findById(contactId, (error) => {
+    const validContact = await Contact.findById(contact, (error) => {
       if (error) {
         return response.json(error);
       }
     });
 
     if (validContact) {
-      groupToAdd.contacts.push({ contactId, participate, permission });
+      groupToAdd.contacts.push({ contact, participate, permission });
 
       await groupToAdd.save((error) => {
         if (error) {
