@@ -93,4 +93,22 @@ module.exports = {
       return response.json(grupo);
     });
   },
+
+  async deleteContactById(request, response) {
+    await Contact.deleteOne({ _id: request.params.id }, (error, result) => {
+      if (error) {
+        return response.json(error);
+      }
+      return response.json(result);
+    });
+  },
+
+  async deleteContactAll(request, response) {
+    await Contact.deleteMany((error, result) => {
+      if (error) {
+        return response.json(error);
+      }
+      return response.json(result);
+    });
+  }
 };

@@ -23,9 +23,9 @@ const ProductSchema = new Schema({
   },
 
   contacts: [{
-    contactId: {
+    contact: {
       type: Schema.Types.ObjectId,
-      ref: 'Contact',
+      ref: 'Contact'
     },
 
     participate: {
