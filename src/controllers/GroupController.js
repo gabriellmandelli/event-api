@@ -31,17 +31,24 @@ module.exports = {
       }
     });
 
-    updateGroup.name = name;
-    updateGroup.description = description;
-    updateGroup.date = date;
-    updateGroup.startTime = startTime;
-
     const contactUpdate = contacts.find(contact => contact.contact === idUsuario)
+
+    if (contactUpdate.permission === 1) {
+      updateGroup.name = name;
+      updateGroup.description = description;
+      updateGroup.date = date;
+      updateGroup.startTime = startTime;
+    }
 
     updateGroup.contacts.forEach((contact) => {
       if (contact.contact.toString() === contactUpdate.contact.toString()) {
         contact.participate = contactUpdate.participate
         contact.permission = contactUpdate.permission
+      } else {
+        if (contactUpdate.permission === 1) {
+          let contactToUpdate = contacts.find(contactUpdate => contactUpdate.contact.toString() === contact.contact.toString())
+          contact.permission = contactToUpdate.permission
+        }
       }
     })
 
