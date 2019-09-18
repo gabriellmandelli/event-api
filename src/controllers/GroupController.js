@@ -20,6 +20,40 @@ module.exports = {
     });
   },
 
+  async updateGroup(request, response) {
+    const { id, name, description, date, contacts, startTime } = request.body;
+
+    const idUsuario = request.query.id
+
+    let updateGroup = await Group.findById(id, (error) => {
+      if (error) {
+        return response.json(error);
+      }
+    });
+
+    updateGroup.name = name;
+    updateGroup.description = description;
+    updateGroup.date = date;
+    updateGroup.startTime = startTime;
+
+    const contactUpdate = contacts.find(contact => contact.contact === idUsuario)
+
+    updateGroup.contacts.forEach((contact) => {
+      if (contact.contact.toString() === contactUpdate.contact.toString()) {
+        contact.participate = contactUpdate.participate
+        contact.permission = contactUpdate.permission
+      }
+    })
+
+    await updateGroup.save((error) => {
+      if (error) {
+        return response.json(error);
+      }
+    });
+
+    return response.json(updateGroup);
+  },
+
   async findGroupById(request, response) {
     await Group.findById(request.params.id, (error, result) => {
       if (error) {

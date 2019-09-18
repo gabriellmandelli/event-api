@@ -4,12 +4,13 @@ const GroupController = require("./controllers/GroupController");
 const ContactController = require("./controllers/ContactController");
 const ContactGroupController = require("./controllers/ContactGroupController");
 
-const groupRoutes = express.Router()
-const contactRoutes = express.Router()
-const contactGroupsRoutes = express.Router()
+const groupRoutes = express.Router();
+const contactRoutes = express.Router();
+const contactGroupsRoutes = express.Router();
 
 groupRoutes
   .post('/group', GroupController.addGroup)
+  .put('/group', GroupController.updateGroup)
   .get('/group', GroupController.findGroupAll)
   .get('/group/:id', GroupController.findGroupById)
   .delete('/group', GroupController.deleteGroupAll)
