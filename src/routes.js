@@ -10,7 +10,7 @@ const contactGroupsRoutes = express.Router();
 
 groupRoutes
   .post('/group', GroupController.addGroup)
-  .put('/group', GroupController.updateGroup)
+  .put('/group/:id', GroupController.updateGroup)
   .get('/group', GroupController.findGroupAll)
   .get('/group/:id', GroupController.findGroupById)
   .delete('/group', GroupController.deleteGroupAll)

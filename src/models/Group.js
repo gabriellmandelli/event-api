@@ -13,7 +13,7 @@ const ProductSchema = new Schema({
   },
 
   date: {
-    type: Date,
+    type: String,
     required: true,
   },
 

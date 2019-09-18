@@ -23,7 +23,7 @@ module.exports = {
   async updateGroup(request, response) {
     const { id, name, description, date, contacts, startTime } = request.body;
 
-    const idUsuario = request.query.id
+    const contactId = request.params.id
 
     let updateGroup = await Group.findById(id, (error) => {
       if (error) {
@@ -31,7 +31,7 @@ module.exports = {
       }
     });
 
-    const contactUpdate = contacts.find(contact => contact.contact === idUsuario)
+    const contactUpdate = contacts.find(contact => contact.contact === contactId)
 
     if (contactUpdate.permission === 1) {
       updateGroup.name = name;
