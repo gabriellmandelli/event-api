@@ -1,4 +1,5 @@
 const Group = require("../models/Group");
+const ModelConstants = require("../configurations/constants/GroupConstants")
 
 module.exports = {
 
@@ -21,9 +22,10 @@ module.exports = {
   },
 
   async updateGroup(request, response) {
+
     const { id, name, description, date, contacts, startTime } = request.body;
 
-    const contactId = request.query.contactId
+    const contactId = request.query.contactId;
 
     let updateGroup = await Group.findById(id, (error) => {
       if (error) {
@@ -33,7 +35,7 @@ module.exports = {
 
     const contactUpdate = contacts.find(contact => contact.contact === contactId)
 
-    if (contactUpdate.permission === 1) {
+    if (contactUpdate.permission === ModelConstants.PERMISSION_GROUP_ADMINISTRATOR) {
       updateGroup.name = name;
       updateGroup.description = description;
       updateGroup.date = date;
@@ -45,7 +47,7 @@ module.exports = {
         contact.participate = contactUpdate.participate
         contact.permission = contactUpdate.permission
       } else {
-        if (contactUpdate.permission === 1) {
+        if (contactUpdate.permission === ModelConstants.PERMISSION_GROUP_ADMINISTRATOR) {
           let contactToUpdate = contacts.find(contactUpdate => contactUpdate.contact.toString() === contact.contact.toString())
           contact.permission = contactToUpdate.permission
         }
