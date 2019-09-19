@@ -23,7 +23,7 @@ module.exports = {
   async updateGroup(request, response) {
     const { id, name, description, date, contacts, startTime } = request.body;
 
-    const contactId = request.params.id
+    const contactId = request.query.contactId
 
     let updateGroup = await Group.findById(id, (error) => {
       if (error) {
