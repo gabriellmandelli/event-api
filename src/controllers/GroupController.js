@@ -1,45 +1,47 @@
-const Group = require("../models/Group");
+const Group = require("../models/Group")
 const ModelConstants = require("../configurations/constants/GroupConstants")
 
 module.exports = {
 
   async addGroup(request, response) {
 
-    const { name, description, date, contacts, startTime } = request.body;
+    const { name, description, date, contacts, location, startTime } = request.body
 
     await Group.create({
       name: name,
       description: description,
       date: date,
+      startTime: startTime,
       contacts: contacts,
-      startTime: startTime
+      location: location
     }, (error, result) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-      return response.json(result);
-    });
+      return response.json(result)
+    })
   },
 
   async updateGroup(request, response) {
 
-    const { id, name, description, date, contacts, startTime } = request.body;
+    const { id, name, description, date, contacts, location, startTime } = request.body
 
-    const contactId = request.query.contactId;
+    const contactId = request.query.contactId
 
     let updateGroup = await Group.findById(id, (error) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-    });
+    })
 
     const contactUpdate = contacts.find(contact => contact.contact === contactId)
 
     if (contactUpdate.permission === ModelConstants.PERMISSION_GROUP_ADMINISTRATOR) {
-      updateGroup.name = name;
-      updateGroup.description = description;
-      updateGroup.date = date;
-      updateGroup.startTime = startTime;
+      updateGroup.name = name
+      updateGroup.description = description
+      updateGroup.date = date
+      updateGroup.startTime = startTime
+      updateGroup.location = location
     }
 
     updateGroup.contacts.forEach((contact) => {
@@ -56,46 +58,46 @@ module.exports = {
 
     await updateGroup.save((error) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-    });
+    })
 
-    return response.json(updateGroup);
+    return response.json(updateGroup)
   },
 
   async findGroupById(request, response) {
     await Group.findById(request.params.id, (error, result) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-      return response.json(result.data);
-    });
+      return response.json(result.data)
+    })
   },
 
   async findGroupAll(request, response) {
     await Group.find((error, result) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-      return response.json(result);
-    });
+      return response.json(result)
+    })
   },
 
   async deleteGroupById(request, response) {
     await Group.deleteOne({ _id: request.params.id }, (error, result) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-      return response.json(result);
-    });
+      return response.json(result)
+    })
   },
 
   async deleteGroupAll(request, response) {
     await Group.deleteMany((error, result) => {
       if (error) {
-        return response.json(error);
+        return response.json(error)
       }
-      return response.json(result);
-    });
+      return response.json(result)
+    })
   }
-};
+}

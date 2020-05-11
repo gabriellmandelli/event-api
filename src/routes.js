@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require("express")
 
-const GroupController = require("./controllers/GroupController");
-const ContactController = require("./controllers/ContactController");
-const ContactGroupController = require("./controllers/ContactGroupController");
+const GroupController = require("./controllers/GroupController")
+const ContactController = require("./controllers/ContactController")
+const ContactGroupController = require("./controllers/ContactGroupController")
 
-const groupRoutes = express.Router();
-const contactRoutes = express.Router();
-const contactGroupsRoutes = express.Router();
+const groupRoutes = express.Router()
+const contactRoutes = express.Router()
+const contactGroupsRoutes = express.Router()
 
 groupRoutes
   .post('/group', GroupController.addGroup)
@@ -27,4 +27,4 @@ contactGroupsRoutes
   .get('/contact/:id/group', ContactGroupController.findContactGroups)
   .post('/group/:id/contact', ContactGroupController.addContactToGroup)
 
-module.exports = [groupRoutes, contactRoutes, contactGroupsRoutes];
+module.exports = [groupRoutes, contactRoutes, contactGroupsRoutes]

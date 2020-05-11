@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose")
 
 const ProductSchema = new Schema({
 
@@ -36,9 +36,24 @@ const ProductSchema = new Schema({
       type: Number,
     }
   }],
+  
+  location: {
+
+    address: {
+      type: String,
+    },
+
+    longitude: {
+      type: Number,
+    },
+
+    latitude: {
+      type: Number,
+    }
+  }
 }, {
   timestamps: true,
-});
+})
 
 ProductSchema.set('toObject', { virtuals: true })
 ProductSchema.set('toJSON', { virtuals: true })
@@ -46,4 +61,4 @@ ProductSchema.virtual('id').get(function () {
   return this._id
 })
 
-module.exports = model('Group', ProductSchema);
+module.exports = model('Group', ProductSchema)

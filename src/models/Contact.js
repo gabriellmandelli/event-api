@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose")
 
 const ContactSchema = new Schema({
 
@@ -14,7 +14,7 @@ const ContactSchema = new Schema({
 
 }, {
   timestamps: true,
-});
+})
 
 ContactSchema.set('toObject', { virtuals: true })
 ContactSchema.set('toJSON', { virtuals: true })
@@ -22,4 +22,4 @@ ContactSchema.virtual('id').get(function () {
   return this._id
 })
 
-module.exports = model('Contact', ContactSchema);
+module.exports = model('Contact', ContactSchema)
