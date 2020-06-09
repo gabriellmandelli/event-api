@@ -1,8 +1,10 @@
 
-const admin = require('firebase-admin')
+const authAdmin = require('firebase-admin')
 
-admin.initializeApp({
-  credential: admin.credential.cert(process.env.serviceAccount),
+const envProd = require('../environments/process.env.prod')
+
+authAdmin.initializeApp({
+  credential: authAdmin.credential.cert(envProd.serviceAccount),
   databaseURL: "https://eventproject-93179.firebaseio.com"
 })
 
@@ -10,12 +12,12 @@ async function authVerifyIdToken(request, response, next){
 
   const { authorization } = request.headers
   
-  admin.auth().verifyIdToken(authorization)
+  authAdmin.auth().verifyIdToken(authorization)
   .then(function(decodedToken) {
     let uid = decodedToken.uid;
   }).catch(function(error) {
     console.log(error)
-    response.json({status: 401})
+    response.json({status: 401, message: error.message})
   });
   
   next()
