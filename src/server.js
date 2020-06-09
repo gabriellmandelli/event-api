@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
 const express = require("express")
 const routes = require("./routes")
+const authMiddleware = require("./auth/authMiddleware")
 const cors = require("cors")
-
 const DatabaseConstants = require("./configurations/constants/DataBaseConstants")
 
 const server = express()
@@ -11,6 +11,7 @@ mongoose.connect(DatabaseConstants.MONGOOSE_CONNECTION, { useNewUrlParser: true,
 
 server.use(cors())
 server.use(express.json())
+server.use(authMiddleware)
 server.use(routes)
 
 server.listen(DatabaseConstants.SERVER_PORT, () => {
