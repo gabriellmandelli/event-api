@@ -9,16 +9,20 @@ authAdmin.initializeApp({
 })
 
 async function authVerifyIdToken(request, response, next){
+  
+  try{
+    const { authorization } = request.headers
 
-  const { authorization } = request.headers
-  
-  authAdmin.auth().verifyIdToken(authorization)
-  .then(function(decodedToken) {
-    let uid = decodedToken.uid;
-  }).catch(function(error) {
+    authAdmin.auth().verifyIdToken(authorization)
+    .then(function(decodedToken) {
+      let uid = decodedToken.uid;
+    }).catch(function(error) {
+      response.json({status: 401})
+    });
+  }catch(exception){
     response.json({status: 401})
-  });
-  
+  }
+
   next()
 }
 
