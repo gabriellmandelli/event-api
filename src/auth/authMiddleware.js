@@ -16,8 +16,7 @@ async function authVerifyIdToken(request, response, next){
   .then(function(decodedToken) {
     let uid = decodedToken.uid;
   }).catch(function(error) {
-    console.log(error)
-    response.json({status: 401, message: error.message})
+    response.json({status: 401})
   });
   
   next()
