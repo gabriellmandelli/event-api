@@ -8,22 +8,17 @@ authAdmin.initializeApp({
   databaseURL: "https://eventproject-93179.firebaseio.com"
 })
 
-async function authVerifyIdToken(request, response, next){
-  
-  try{
-    const { authorization } = request.headers
+async function authVerifyIdToken(request, response, next) {
 
-    authAdmin.auth().verifyIdToken(authorization)
-    .then(function(decodedToken) {
+  const { authorization } = request.headers
+
+  authAdmin.auth().verifyIdToken(authorization)
+    .then(function (decodedToken) {
       let uid = decodedToken.uid;
-    }).catch(function(error) {
-      response.json({status: 401})
+      next()
+    }).catch(function (error) {
+      response.json({ status: 401 })
     });
-  }catch(exception){
-    response.json({status: 401})
-  }
-
-  next()
 }
 
 module.exports = authVerifyIdToken
